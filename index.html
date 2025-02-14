@@ -1,3 +1,177 @@
-<html>
-  <h1>Hello World</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Will You Be My Valentine?</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, #ff7eb3, #ff758c);
+      color: white;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 20px;
+      animation: fadeIn 2s ease-in-out;
+    }
+
+    .gallery {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin: 20px 0;
+      flex-wrap: wrap;
+    }
+
+    .gallery img {
+      width: 150px;
+      height: 150px;
+      border-radius: 10px;
+      object-fit: cover;
+      border: 3px solid white;
+      transition: transform 0.3s ease;
+    }
+
+    .gallery img:hover {
+      transform: scale(1.1);
+    }
+
+    .form-container {
+      margin-top: 20px;
+    }
+
+    .form-container input[type="text"] {
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      width: 200px;
+      margin-right: 10px;
+    }
+
+    .form-container button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      background: #ff4757;
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .form-container button:hover {
+      background: #ff6b81;
+    }
+
+    .hearts {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .hearts span {
+      position: absolute;
+      display: block;
+      width: 20px;
+      height: 20px;
+      background: rgba(255, 255, 255, 0.6);
+      clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 50% 75%, 18% 100%, 0% 38%);
+      animation: animateHearts 5s linear infinite;
+    }
+
+    @keyframes animateHearts {
+      0% {
+        transform: translateY(-10%);
+      }
+      100% {
+        transform: translateY(110%);
+      }
+    }
+
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 2rem;
+      }
+
+      .gallery img {
+        width: 100px;
+        height: 100px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="hearts">
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+
+  <div class="container">
+    <h1>Will You Be My Valentine?</h1>
+    <div class="gallery">
+      <img src="https://via.placeholder.com/150" alt="Memory 1">
+      <img src="https://via.placeholder.com/150" alt="Memory 2">
+      <img src="https://via.placeholder.com/150" alt="Memory 3">
+      <img src="https://via.placeholder.com/150" alt="Memory 4">
+    </div>
+    <div class="form-container">
+      <input type="text" id="response" placeholder="Type 'Yes' or 'No'">
+      <button onclick="handleResponse()">Submit</button>
+    </div>
+  </div>
+
+  <script>
+    function handleResponse() {
+      const response = document.getElementById('response').value.toLowerCase();
+      if (response === 'yes') {
+        alert('Yay! You just made me the happiest person alive! ❤️');
+      } else if (response === 'no') {
+        alert('Aww, I’ll keep trying until you say yes! 😊');
+      } else {
+        alert('Please type "Yes" or "No"!');
+      }
+    }
+
+    // Create falling hearts
+    const heartsContainer = document.querySelector('.hearts');
+    for (let i = 0; i < 20; i++) {
+      const heart = document.createElement('span');
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.animationDuration = Math.random() * 3 + 2 + 's';
+      heartsContainer.appendChild(heart);
+    }
+  </script>
+</body>
 </html>
