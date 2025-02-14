@@ -72,6 +72,9 @@
 
     .form-container {
       margin-top: 20px;
+      display: flex;
+      flex-direction: row;
+      gap: 10px;
     }
 
     input[type="submit"] {
@@ -85,7 +88,7 @@
       cursor: pointer;
       transition: 0.3s;
       box-shadow: 0px 4px 10px rgba(255, 0, 0, 0.8);
-      margin: 0 10px;
+      width: 180px;
     }
 
     input[type="submit"]:hover {
@@ -153,6 +156,7 @@
 
       input[type="submit"] {
         font-size: 1rem;
+        width: 140px;
       }
     }
   </style>
@@ -169,8 +173,10 @@
   </div>
 
   <div class="form-container">
-    <form action="#" method="post">
+    <form action="https://api.whatsapp.com/send?text=Yes,%20I%20would%20love%20to%20be%20your%20Valentine!%20❤️" method="get">
       <input type="submit" value="Yes! I would love to ❤️">
+    </form>
+    <form action="#" method="post">
       <input type="submit" value="No, just friends 💔">
     </form>
   </div>
