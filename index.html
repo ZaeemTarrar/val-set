@@ -8,11 +8,12 @@
     body {
       margin: 0;
       padding: 0;
-      font-family: 'Arial', sans-serif;
+      font-family: 'Pacifico', cursive;
       background: linear-gradient(135deg, #ff7eb3, #ff758c);
       color: white;
       text-align: center;
       overflow: hidden;
+      position: relative;
     }
 
     .container {
@@ -22,59 +23,74 @@
     }
 
     h1 {
-      font-size: 3rem;
+      font-size: 4rem;
       margin-bottom: 20px;
-      animation: fadeIn 2s ease-in-out;
+      animation: glow 2s infinite alternate;
+    }
+
+    @keyframes glow {
+      0% {
+        text-shadow: 0 0 10px #fff, 0 0 20px #ff69b4, 0 0 30px #ff69b4, 0 0 40px #ff69b4;
+      }
+      100% {
+        text-shadow: 0 0 20px #fff, 0 0 30px #ff1493, 0 0 40px #ff1493, 0 0 50px #ff1493;
+      }
     }
 
     .gallery {
       display: flex;
       justify-content: center;
-      gap: 10px;
-      margin: 20px 0;
+      gap: 20px;
+      margin: 40px 0;
       flex-wrap: wrap;
     }
 
     .gallery img {
-      width: 150px;
-      height: 150px;
-      border-radius: 10px;
+      width: 200px;
+      height: 200px;
+      border-radius: 15px;
       object-fit: cover;
-      border: 3px solid white;
-      transition: transform 0.3s ease;
+      border: 5px solid white;
+      box-shadow: 0 0 20px rgba(255, 105, 180, 0.7);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
     .gallery img:hover {
       transform: scale(1.1);
+      box-shadow: 0 0 40px rgba(255, 105, 180, 1);
     }
 
     .form-container {
-      margin-top: 20px;
+      margin-top: 40px;
     }
 
     .form-container input[type="text"] {
-      padding: 10px;
+      padding: 15px;
       border: none;
-      border-radius: 5px;
-      width: 200px;
+      border-radius: 25px;
+      width: 250px;
       margin-right: 10px;
+      font-size: 1rem;
+      outline: none;
     }
 
     .form-container button {
-      padding: 10px 20px;
+      padding: 15px 30px;
       border: none;
-      border-radius: 5px;
+      border-radius: 25px;
       background: #ff4757;
       color: white;
+      font-size: 1rem;
       cursor: pointer;
-      transition: background 0.3s ease;
+      transition: background 0.3s ease, transform 0.3s ease;
     }
 
     .form-container button:hover {
       background: #ff6b81;
+      transform: scale(1.1);
     }
 
-    .hearts {
+    .hearts, .stars {
       position: absolute;
       top: 0;
       left: 0;
@@ -84,14 +100,20 @@
       z-index: 0;
     }
 
-    .hearts span {
+    .hearts span, .stars span {
       position: absolute;
       display: block;
       width: 20px;
       height: 20px;
-      background: rgba(255, 255, 255, 0.6);
+      background: rgba(255, 255, 255, 0.8);
       clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 50% 75%, 18% 100%, 0% 38%);
       animation: animateHearts 5s linear infinite;
+    }
+
+    .stars span {
+      background: rgba(255, 255, 255, 0.8);
+      clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+      animation: animateStars 5s linear infinite;
     }
 
     @keyframes animateHearts {
@@ -101,6 +123,21 @@
       100% {
         transform: translateY(110%);
       }
+    }
+
+    @keyframes animateStars {
+      0% {
+        transform: translateY(-10%) rotate(0deg);
+      }
+      100% {
+        transform: translateY(110%) rotate(360deg);
+      }
+    }
+
+    .message {
+      font-size: 1.5rem;
+      margin-top: 20px;
+      animation: fadeIn 3s ease-in-out;
     }
 
     @keyframes fadeIn {
@@ -114,15 +151,21 @@
 
     @media (max-width: 600px) {
       h1 {
-        font-size: 2rem;
+        font-size: 2.5rem;
       }
 
       .gallery img {
-        width: 100px;
-        height: 100px;
+        width: 120px;
+        height: 120px;
+      }
+
+      .form-container input[type="text"] {
+        width: 80%;
+        margin-bottom: 10px;
       }
     }
   </style>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
 </head>
 <body>
   <div class="hearts">
@@ -138,13 +181,29 @@
     <span></span>
   </div>
 
+  <div class="stars">
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+
   <div class="container">
     <h1>Will You Be My Valentine?</h1>
     <div class="gallery">
-      <img src="https://via.placeholder.com/150" alt="Memory 1">
-      <img src="https://via.placeholder.com/150" alt="Memory 2">
-      <img src="https://via.placeholder.com/150" alt="Memory 3">
-      <img src="https://via.placeholder.com/150" alt="Memory 4">
+      <img src="https://via.placeholder.com/200" alt="Memory 1">
+      <img src="https://via.placeholder.com/200" alt="Memory 2">
+      <img src="https://via.placeholder.com/200" alt="Memory 3">
+      <img src="https://via.placeholder.com/200" alt="Memory 4">
+    </div>
+    <div class="message">
+      Every moment with you is special. Will you make this Valentine's Day unforgettable?
     </div>
     <div class="form-container">
       <input type="text" id="response" placeholder="Type 'Yes' or 'No'">
@@ -164,13 +223,19 @@
       }
     }
 
-    // Create falling hearts
+    // Create falling hearts and stars
     const heartsContainer = document.querySelector('.hearts');
-    for (let i = 0; i < 20; i++) {
+    const starsContainer = document.querySelector('.stars');
+    for (let i = 0; i < 30; i++) {
       const heart = document.createElement('span');
       heart.style.left = Math.random() * 100 + 'vw';
       heart.style.animationDuration = Math.random() * 3 + 2 + 's';
       heartsContainer.appendChild(heart);
+
+      const star = document.createElement('span');
+      star.style.left = Math.random() * 100 + 'vw';
+      star.style.animationDuration = Math.random() * 3 + 2 + 's';
+      starsContainer.appendChild(star);
     }
   </script>
 </body>
