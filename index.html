@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Valentine's Day Surprise for Noor</title>
+  <title>Valentine's Surprise for Noor</title>
   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Sacramento&display=swap" rel="stylesheet">
   <style>
     body {
@@ -11,27 +11,43 @@
       padding: 0;
       box-sizing: border-box;
       font-family: 'Dancing Script', cursive;
-      background-color: #ffcccb;
-      color: #4b0f0f;
+      background-color: #000000;
+      color: #ff4d4d;
       overflow-x: hidden;
-    }
-
-    /* Container styling */
-    .container {
-      text-align: center;
-      padding: 20px;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
     }
 
     h1 {
-      font-size: 3rem;
-      margin: 20px 0;
+      font-size: 3.5rem;
+      color: #ff4d4d;
+      text-shadow: 2px 2px 5px rgba(255, 0, 0, 0.8);
       font-family: 'Sacramento', cursive;
-      color: #9b0b0b;
     }
 
     p {
-      font-size: 1.5rem;
+      font-size: 1.8rem;
+      color: #ffcccc;
       margin: 20px 0;
+      text-align: center;
+    }
+
+    /* Glitter effect for text */
+    h1, p {
+      animation: glitter 2s infinite alternate;
+    }
+
+    @keyframes glitter {
+      from {
+        text-shadow: 0 0 5px #ff6699, 0 0 10px #ff6699, 0 0 15px #ff3333;
+      }
+      to {
+        text-shadow: 0 0 10px #ff0000, 0 0 20px #ff0066, 0 0 30px #ff0000;
+      }
     }
 
     /* Image gallery */
@@ -40,18 +56,24 @@
       flex-wrap: wrap;
       justify-content: center;
       gap: 15px;
+      margin: 30px 0;
     }
 
     .images img {
       width: 150px;
       height: 150px;
       border-radius: 15px;
-      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+      box-shadow: 0px 4px 10px rgba(255, 105, 180, 0.8);
+      transition: transform 0.3s;
+    }
+
+    .images img:hover {
+      transform: scale(1.1);
     }
 
     /* Form styling */
     .form-container {
-      margin-top: 30px;
+      margin-top: 20px;
     }
 
     input[type="submit"] {
@@ -64,13 +86,15 @@
       border-radius: 25px;
       cursor: pointer;
       transition: 0.3s;
+      box-shadow: 0px 4px 10px rgba(255, 0, 0, 0.8);
     }
 
     input[type="submit"]:hover {
-      background-color: #ff1a1a;
+      background-color: #ff0000;
+      box-shadow: 0px 6px 15px rgba(255, 0, 0, 1);
     }
 
-    /* Heart animation */
+    /* Floating heart animation */
     .heart {
       position: absolute;
       width: 20px;
@@ -78,6 +102,7 @@
       background-color: pink;
       clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 50% 80%, 18% 100%, 0% 38%);
       animation: float 5s infinite ease-in-out;
+      opacity: 0.8;
     }
 
     @keyframes float {
@@ -91,15 +116,25 @@
       }
     }
 
-    /* Add randomness to heart positions */
-    .heart:nth-child(odd) {
-      animation-duration: 7s;
-      left: 10%;
+    /* Glitter stars */
+    .glitter {
+      position: absolute;
+      width: 5px;
+      height: 5px;
+      background-color: #ff99cc;
+      border-radius: 50%;
+      animation: sparkle 3s infinite alternate ease-in-out;
     }
 
-    .heart:nth-child(even) {
-      animation-duration: 6s;
-      left: 90%;
+    @keyframes sparkle {
+      from {
+        transform: scale(1);
+        opacity: 0.6;
+      }
+      to {
+        transform: scale(1.5);
+        opacity: 1;
+      }
     }
 
     /* Mobile responsiveness */
@@ -124,25 +159,24 @@
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Dear Noor ❤️</h1>
-    <p>You are the most special person to me. Would you be my Valentine? 🌹</p>
-    <div class="images">
-      <img src="https://via.placeholder.com/150" alt="Memory 1">
-      <img src="https://via.placeholder.com/150" alt="Memory 2">
-      <img src="https://via.placeholder.com/150" alt="Memory 3">
-      <img src="https://via.placeholder.com/150" alt="Memory 4">
-    </div>
+  <h1>Dear Noor ❤️</h1>
+  <p>You are the brightest star in my sky. Will you be my Valentine? 🌹</p>
 
-    <div class="form-container">
-      <form action="#" method="post">
-        <input type="submit" value="Yes! I would love to ❤️">
-        <input type="submit" value="No, just friends 💔">
-      </form>
-    </div>
+  <div class="images">
+    <img src="https://via.placeholder.com/150" alt="Memory 1">
+    <img src="https://via.placeholder.com/150" alt="Memory 2">
+    <img src="https://via.placeholder.com/150" alt="Memory 3">
+    <img src="https://via.placeholder.com/150" alt="Memory 4">
   </div>
 
-  <!-- Heart animations -->
+  <div class="form-container">
+    <form action="#" method="post">
+      <input type="submit" value="Yes! I would love to ❤️">
+      <input type="submit" value="No, just friends 💔">
+    </form>
+  </div>
+
+  <!-- Heart and glitter effects -->
   <script>
     for (let i = 0; i < 50; i++) {
       const heart = document.createElement('div');
@@ -150,6 +184,15 @@
       heart.style.left = Math.random() * 100 + 'vw';
       heart.style.animationDelay = Math.random() * 5 + 's';
       document.body.appendChild(heart);
+    }
+
+    for (let i = 0; i < 30; i++) {
+      const glitter = document.createElement('div');
+      glitter.className = 'glitter';
+      glitter.style.left = Math.random() * 100 + 'vw';
+      glitter.style.top = Math.random() * 100 + 'vh';
+      glitter.style.animationDelay = Math.random() * 3 + 's';
+      document.body.appendChild(glitter);
     }
   </script>
 </body>
