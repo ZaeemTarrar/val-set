@@ -3,42 +3,125 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Countdown to Monday 8 AM</title>
-    <script>
-        function getNextMondayAt8AM() {
-            let now = new Date();
-            let nextMonday = new Date();
-            
-            nextMonday.setDate(now.getDate() + ((8 - now.getDay()) % 7 || 7)); // Get next Monday
-            nextMonday.setHours(8, 0, 0, 0); // Set time to 8:00 AM
-            
-            return nextMonday;
+    <title>For Someone Special</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            background-color: #fff0f5;
+            padding: 20px;
+            transition: all 0.5s;
         }
-
-        function updateCountdown() {
-            let now = new Date().getTime();
-            let targetTime = getNextMondayAt8AM().getTime();
-            let timeRemaining = targetTime - now;
-
-            if (timeRemaining <= 0) {
-                document.getElementById("countdown").innerHTML = "Time's up!";
-                return;
-            }
-
-            let days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
-            let hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            let minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
-            let seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
-
-            document.getElementById("countdown").innerHTML = 
-                `${days}d ${hours}h ${minutes}m ${seconds}s`;
+        h1 {
+            color: #ff69b4;
+            margin-bottom: 30px;
         }
-
-        setInterval(updateCountdown, 1000);
-    </script>
+        #surpriseBtn {
+            background-color: #ff69b4;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 25px;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+        #surpriseBtn:hover {
+            background-color: #ff1493;
+            transform: scale(1.05);
+        }
+        #proposal {
+            display: none;
+            margin-top: 30px;
+            animation: fadeIn 1s;
+        }
+        #responseBtns {
+            margin-top: 20px;
+        }
+        .responseBtn {
+            padding: 10px 25px;
+            margin: 0 10px;
+            border: none;
+            border-radius: 20px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        #yesBtn {
+            background-color: #32cd32;
+            color: white;
+        }
+        #noBtn {
+            background-color: #ff4500;
+            color: white;
+        }
+        .responseBtn:hover {
+            transform: scale(1.1);
+        }
+        .heart {
+            position: absolute;
+            pointer-events: none;
+            animation: float 4s ease-in-out infinite;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        }
+    </style>
 </head>
 <body>
-    <h1>Countdown to Next Monday 8:00 AM</h1>
-    <h2 id="countdown">Loading...</h2>
+    <h1>For Someone Very Special...</h1>
+    <button id="surpriseBtn">Surprise!</button>
+    
+    <div id="proposal">
+        <h2 style="color: #ff1493; font-size: 24px;">Will you be my girlfriend?</h2>
+        <div id="responseBtns">
+            <button id="yesBtn" class="responseBtn">Yes! ❤️</button>
+            <button id="noBtn" class="responseBtn">No</button>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('surpriseBtn').addEventListener('click', function() {
+            this.style.display = 'none';
+            document.getElementById('proposal').style.display = 'block';
+        });
+
+        document.getElementById('yesBtn').addEventListener('click', function() {
+            createHearts();
+            document.getElementById('proposal').innerHTML = 
+                '<h2 style="color: #ff1493;">You just made me the happiest person! ❤️</h2>';
+        });
+
+        document.getElementById('noBtn').addEventListener('click', function() {
+            document.getElementById('proposal').innerHTML = 
+                '<h2 style="color: #ff1493;">I will always cherish you anyway...</h2>';
+        });
+
+        function createHearts() {
+            const colors = ['#ff69b4', '#ff1493', '#ff00ff', '#ff99cc', '#ff66b2'];
+            
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.innerHTML = '❤️';
+                heart.className = 'heart';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+                heart.style.color = colors[Math.floor(Math.random() * colors.length)];
+                heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                
+                document.body.appendChild(heart);
+                
+                setTimeout(() => {
+                    heart.remove();
+                }, 5000);
+            }, 300);
+        }
+    </script>
 </body>
 </html>
