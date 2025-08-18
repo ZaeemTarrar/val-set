@@ -3,125 +3,121 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>For Someone Special</title>
+    <title>Elegant Greeting Card</title>
     <style>
         body {
-            font-family: 'Arial', sans-serif;
-            text-align: center;
-            background-color: #fff0f5;
-            padding: 20px;
-            transition: all 0.5s;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Segoe Script', 'Brush Script MT', cursive;
+            overflow: hidden;
         }
-        h1 {
-            color: #ff69b4;
-            margin-bottom: 30px;
+        
+        .card {
+            width: 80%;
+            max-width: 600px;
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
-        #surpriseBtn {
-            background-color: #ff69b4;
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            font-size: 18px;
-            border-radius: 25px;
-            cursor: pointer;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            transition: all 0.3s;
-        }
-        #surpriseBtn:hover {
-            background-color: #ff1493;
-            transform: scale(1.05);
-        }
-        #proposal {
-            display: none;
-            margin-top: 30px;
-            animation: fadeIn 1s;
-        }
-        #responseBtns {
-            margin-top: 20px;
-        }
-        .responseBtn {
-            padding: 10px 25px;
-            margin: 0 10px;
-            border: none;
-            border-radius: 20px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        #yesBtn {
-            background-color: #32cd32;
-            color: white;
-        }
-        #noBtn {
-            background-color: #ff4500;
-            color: white;
-        }
-        .responseBtn:hover {
-            transform: scale(1.1);
-        }
-        .heart {
+        
+        .card::before {
+            content: '';
             position: absolute;
-            pointer-events: none;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            background: linear-gradient(45deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%);
+            z-index: -1;
+            filter: blur(20px);
+            opacity: 0.6;
+        }
+        
+        h1 {
+            color: #d23669;
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .message {
+            font-size: 1.5rem;
+            line-height: 1.6;
+            color: #333;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 1.5s forwards 0.5s;
+        }
+        
+        .signature {
+            margin-top: 40px;
+            text-align: right;
+            font-style: italic;
+            color: #d23669;
+            font-size: 1.3rem;
+            opacity: 0;
+            animation: fadeIn 1s forwards 2s;
+        }
+        
+        .hearts {
+            position: absolute;
+            font-size: 1.2rem;
+            color: #ff6b81;
             animation: float 4s ease-in-out infinite;
         }
+        
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
+        
         @keyframes float {
-            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
         }
+        
+        /* Random heart positions */
+        .heart1 { top: 10%; left: 15%; animation-delay: 0s; }
+        .heart2 { top: 80%; left: 80%; animation-delay: 1s; }
+        .heart3 { top: 60%; left: 10%; animation-delay: 2s; }
+        .heart4 { top: 30%; left: 85%; animation-delay: 3s; }
     </style>
 </head>
 <body>
-    <h1>For Someone Very Special...</h1>
-    <button id="surpriseBtn">Surprise!</button>
-    
-    <div id="proposal">
-        <h2 style="color: #ff1493; font-size: 24px;">Will you be my girlfriend?</h2>
-        <div id="responseBtns">
-            <button id="yesBtn" class="responseBtn">Yes! ❤️</button>
-            <button id="noBtn" class="responseBtn">No</button>
+    <div class="card">
+        <!-- Floating hearts -->
+        <div class="hearts heart1">❤️</div>
+        <div class="hearts heart2">❤️</div>
+        <div class="hearts heart3">❤️</div>
+        <div class="hearts heart4">❤️</div>
+        
+        <h1>To Someone Special</h1>
+        
+        <div class="message">
+            Every moment with you feels like a beautiful dream I never want to wake up from.<br><br>
+            Your smile brightens my darkest days, and your love gives me strength.<br><br>
+            Today, tomorrow, and forever - my heart belongs to you.
+        </div>
+        
+        <div class="signature">
+            With all my love,<br>
+            [Your Name]
         </div>
     </div>
-
-    <script>
-        document.getElementById('surpriseBtn').addEventListener('click', function() {
-            this.style.display = 'none';
-            document.getElementById('proposal').style.display = 'block';
-        });
-
-        document.getElementById('yesBtn').addEventListener('click', function() {
-            createHearts();
-            document.getElementById('proposal').innerHTML = 
-                '<h2 style="color: #ff1493;">You just made me the happiest person! ❤️</h2>';
-        });
-
-        document.getElementById('noBtn').addEventListener('click', function() {
-            document.getElementById('proposal').innerHTML = 
-                '<h2 style="color: #ff1493;">I will always cherish you anyway...</h2>';
-        });
-
-        function createHearts() {
-            const colors = ['#ff69b4', '#ff1493', '#ff00ff', '#ff99cc', '#ff66b2'];
-            
-            setInterval(() => {
-                const heart = document.createElement('div');
-                heart.innerHTML = '❤️';
-                heart.className = 'heart';
-                heart.style.left = Math.random() * 100 + 'vw';
-                heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
-                heart.style.color = colors[Math.floor(Math.random() * colors.length)];
-                heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
-                
-                document.body.appendChild(heart);
-                
-                setTimeout(() => {
-                    heart.remove();
-                }, 5000);
-            }, 300);
-        }
-    </script>
 </body>
 </html>
