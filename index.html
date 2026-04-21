@@ -11,8 +11,6 @@
       color: #fff;
       display: flex;
       justify-content: center;
-      align-items: flex-start;
-      min-height: 100vh;
       padding: 40px 20px;
     }
 
@@ -28,37 +26,31 @@
 
     .card {
       background: rgba(255, 255, 255, 0.08);
-      backdrop-filter: blur(10px);
       border-radius: 16px;
       padding: 20px;
       margin-bottom: 20px;
       box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-      transition: transform 0.2s ease;
-    }
-
-    .card:hover {
-      transform: translateY(-5px);
     }
 
     .label {
       font-size: 20px;
       font-weight: bold;
-      margin-bottom: 10px;
     }
 
     .days {
       font-size: 28px;
-      color: #00d4ff; /* Blue */
+      color: #00d4ff;
+      margin-top: 10px;
     }
 
     .ymd {
       font-size: 18px;
-      color: #ffd166; /* Yellow */
+      color: #ffd166;
       margin-top: 5px;
     }
 
     .date {
-      font-size: 14px;
+      font-size: 13px;
       opacity: 0.7;
       margin-top: 5px;
     }
@@ -72,21 +64,25 @@
 
   <script>
     const data = [
-      { label: "Started University", date: "2023-09-01" },
-      { label: "Gym Journey", date: "2024-01-15" },
-      { label: "Project Launch", date: "2025-06-01" }
+      { label: "Started University", from: "2023-09-01" }, // till today
+      { label: "Gym Phase", from: "2024-01-15", to: "2024-10-01" }, // custom range
+      { label: "Project Build", from: "2025-06-01" }
     ];
 
-    function getDaysPassed(dateStr) {
-      const givenDate = new Date(dateStr);
-      const today = new Date();
-      const diffTime = today - givenDate;
-      return Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    function getDates(item) {
+      const from = new Date(item.from);
+      const to = item.to ? new Date(item.to) : new Date();
+      return { from, to };
     }
 
-    function getYMDDifference(startDateStr) {
-      const start = new Date(startDateStr);
-      const end = new Date();
+    function getDaysPassed(from, to) {
+      const diff = to - from;
+      return Math.floor(diff / (1000 * 60 * 60 * 24));
+    }
+
+    function getYMDDifference(from, to) {
+      let start = new Date(from);
+      let end = new Date(to);
 
       let years = end.getFullYear() - start.getFullYear();
       let months = end.getMonth() - start.getMonth();
@@ -103,7 +99,7 @@
         months += 12;
       }
 
-      return `${years} year${years !== 1 ? "s" : ""}, ${months} month${months !== 1 ? "s" : ""}, ${days} day${days !== 1 ? "s" : ""}`;
+      return `${years}y ${months}m ${days}d`;
     }
 
     function render() {
@@ -111,8 +107,10 @@
       container.innerHTML = "";
 
       data.forEach(item => {
-        const days = getDaysPassed(item.date);
-        const ymd = getYMDDifference(item.date);
+        const { from, to } = getDates(item);
+
+        const days = getDaysPassed(from, to);
+        const ymd = getYMDDifference(from, to);
 
         const card = document.createElement("div");
         card.className = "card";
@@ -121,7 +119,9 @@
           <div class="label">${item.label}</div>
           <div class="days">${days} days</div>
           <div class="ymd">${ymd}</div>
-          <div class="date">Since ${item.date}</div>
+          <div class="date">
+            ${item.from} → ${item.to || "Today"}
+          </div>
         `;
 
         container.appendChild(card);
