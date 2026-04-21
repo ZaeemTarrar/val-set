@@ -34,17 +34,17 @@
       transform: translateY(-5px);
     }
 
-    /* 🎨 Category Colors */
+    /* 🎯 Subtle category colors */
     .fixed {
-      background: linear-gradient(135deg, #6a11cb, #2575fc);
+      background: rgba(255, 255, 255, 0.08); /* original */
     }
 
     .increasing {
-      background: linear-gradient(135deg, #00c6ff, #0072ff);
+      background: rgba(120, 150, 130, 0.18); /* dull green-gray */
     }
 
     .decreasing {
-      background: linear-gradient(135deg, #ff7e5f, #ff3d3d);
+      background: rgba(160, 110, 110, 0.18); /* dull red-gray */
     }
 
     .label {
@@ -54,13 +54,14 @@
 
     .days {
       font-size: 22px;
+      color: #00d4ff;
       margin-top: 8px;
     }
 
     .ymd {
       font-size: 14px;
+      color: #ffd166;
       margin-top: 3px;
-      opacity: 0.9;
     }
 
     .date {
@@ -69,7 +70,6 @@
       margin-top: 5px;
     }
 
-    /* Responsive */
     @media (max-width: 1000px) {
       .container {
         grid-template-columns: repeat(2, 1fr);
@@ -109,16 +109,13 @@
 
     function getDates(item) {
       const today = new Date();
-
       const from = item.from ? new Date(item.from) : today;
       const to = item.to ? new Date(item.to) : today;
-
       return { from, to };
     }
 
     function getDaysDiff(from, to) {
-      const diff = to - from;
-      return Math.floor(diff / (1000 * 60 * 60 * 24));
+      return Math.floor((to - from) / (1000 * 60 * 60 * 24));
     }
 
     function getYMDDifference(from, to) {
@@ -163,11 +160,9 @@
         let days, ymd;
 
         if (category === "decreasing") {
-          // countdown
           days = getDaysDiff(today, to);
           ymd = getYMDDifference(today, to);
         } else {
-          // normal
           days = getDaysDiff(from, to);
           ymd = getYMDDifference(from, to);
         }
