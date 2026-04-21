@@ -24,7 +24,6 @@
     }
 
     .card {
-      background: rgba(255, 255, 255, 0.08);
       border-radius: 16px;
       padding: 15px;
       box-shadow: 0 8px 20px rgba(0,0,0,0.3);
@@ -35,6 +34,19 @@
       transform: translateY(-5px);
     }
 
+    /* 🎨 Category Colors */
+    .fixed {
+      background: linear-gradient(135deg, #6a11cb, #2575fc);
+    }
+
+    .increasing {
+      background: linear-gradient(135deg, #00c6ff, #0072ff);
+    }
+
+    .decreasing {
+      background: linear-gradient(135deg, #ff7e5f, #ff3d3d);
+    }
+
     .label {
       font-size: 16px;
       font-weight: bold;
@@ -42,14 +54,13 @@
 
     .days {
       font-size: 22px;
-      color: #00d4ff;
       margin-top: 8px;
     }
 
     .ymd {
       font-size: 14px;
-      color: #ffd166;
       margin-top: 3px;
+      opacity: 0.9;
     }
 
     .date {
@@ -105,7 +116,7 @@
       return { from, to };
     }
 
-    function getDaysPassed(from, to) {
+    function getDaysDiff(from, to) {
       const diff = to - from;
       return Math.floor(diff / (1000 * 60 * 60 * 24));
     }
@@ -132,18 +143,37 @@
       return `${years}y ${months}m ${days}d`;
     }
 
+    function getCategory(item) {
+      if (item.from && item.to) return "fixed";
+      if (item.from && !item.to) return "increasing";
+      if (!item.from && item.to) return "decreasing";
+      return "fixed";
+    }
+
     function render() {
       const container = document.getElementById("list");
       container.innerHTML = "";
 
+      const today = new Date();
+
       data.forEach(item => {
         const { from, to } = getDates(item);
+        const category = getCategory(item);
 
-        const days = getDaysPassed(from, to);
-        const ymd = getYMDDifference(from, to);
+        let days, ymd;
+
+        if (category === "decreasing") {
+          // countdown
+          days = getDaysDiff(today, to);
+          ymd = getYMDDifference(today, to);
+        } else {
+          // normal
+          days = getDaysDiff(from, to);
+          ymd = getYMDDifference(from, to);
+        }
 
         const card = document.createElement("div");
-        card.className = "card";
+        card.className = `card ${category}`;
 
         card.innerHTML = `
           <div class="label">${item.label}</div>
