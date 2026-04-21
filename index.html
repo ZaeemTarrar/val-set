@@ -9,14 +9,7 @@
       font-family: Arial, sans-serif;
       background: linear-gradient(135deg, #1e1e2f, #2b2b45);
       color: #fff;
-      display: flex;
-      justify-content: center;
-      padding: 40px 20px;
-    }
-
-    .container {
-      width: 100%;
-      max-width: 700px;
+      padding: 30px;
     }
 
     h1 {
@@ -24,43 +17,65 @@
       margin-bottom: 30px;
     }
 
+    .container {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+
     .card {
       background: rgba(255, 255, 255, 0.08);
       border-radius: 16px;
-      padding: 20px;
-      margin-bottom: 20px;
+      padding: 15px;
       box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+      transition: transform 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
     }
 
     .label {
-      font-size: 20px;
+      font-size: 16px;
       font-weight: bold;
     }
 
     .days {
-      font-size: 28px;
+      font-size: 22px;
       color: #00d4ff;
-      margin-top: 10px;
+      margin-top: 8px;
     }
 
     .ymd {
-      font-size: 18px;
+      font-size: 14px;
       color: #ffd166;
-      margin-top: 5px;
+      margin-top: 3px;
     }
 
     .date {
-      font-size: 13px;
+      font-size: 12px;
       opacity: 0.7;
       margin-top: 5px;
+    }
+
+    /* Responsive */
+    @media (max-width: 1000px) {
+      .container {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 500px) {
+      .container {
+        grid-template-columns: repeat(1, 1fr);
+      }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>📅 Date Tracker</h1>
-    <div id="list"></div>
-  </div>
+
+  <h1>📅 Life Timeline</h1>
+  <div class="container" id="list"></div>
 
   <script>
     const data = [
@@ -77,8 +92,11 @@
     ];
 
     function getDates(item) {
-      const from = new Date(item.from);
-      const to = item.to ? new Date(item.to) : new Date();
+      const today = new Date();
+
+      const from = item.from ? new Date(item.from) : today;
+      const to = item.to ? new Date(item.to) : today;
+
       return { from, to };
     }
 
@@ -127,7 +145,7 @@
           <div class="days">${days} days</div>
           <div class="ymd">${ymd}</div>
           <div class="date">
-            ${item.from} → ${item.to || "Today"}
+            ${item.from || "Today"} → ${item.to || "Today"}
           </div>
         `;
 
@@ -137,5 +155,6 @@
 
     render();
   </script>
+
 </body>
 </html>
