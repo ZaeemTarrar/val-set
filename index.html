@@ -1,123 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elegant Greeting Card</title>
-    <style>
-        body {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: 'Segoe Script', 'Brush Script MT', cursive;
-            overflow: hidden;
-        }
-        
-        .card {
-            width: 80%;
-            max-width: 600px;
-            background: white;
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            position: relative;
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-        }
-        
-        .card::before {
-            content: '';
-            position: absolute;
-            top: -10px;
-            left: -10px;
-            right: -10px;
-            bottom: -10px;
-            background: linear-gradient(45deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%);
-            z-index: -1;
-            filter: blur(20px);
-            opacity: 0.6;
-        }
-        
-        h1 {
-            color: #d23669;
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 30px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        
-        .message {
-            font-size: 1.5rem;
-            line-height: 1.6;
-            color: #333;
-            text-align: center;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeIn 1.5s forwards 0.5s;
-        }
-        
-        .signature {
-            margin-top: 40px;
-            text-align: right;
-            font-style: italic;
-            color: #d23669;
-            font-size: 1.3rem;
-            opacity: 0;
-            animation: fadeIn 1s forwards 2s;
-        }
-        
-        .hearts {
-            position: absolute;
-            font-size: 1.2rem;
-            color: #ff6b81;
-            animation: float 4s ease-in-out infinite;
-        }
-        
-        @keyframes fadeIn {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-20px);
-            }
-        }
-        
-        /* Random heart positions */
-        .heart1 { top: 10%; left: 15%; animation-delay: 0s; }
-        .heart2 { top: 80%; left: 80%; animation-delay: 1s; }
-        .heart3 { top: 60%; left: 10%; animation-delay: 2s; }
-        .heart4 { top: 30%; left: 85%; animation-delay: 3s; }
-    </style>
+  <meta charset="UTF-8" />
+  <title>Date Tracker</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #1e1e2f, #2b2b45);
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 700px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+      transition: transform 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .label {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .days {
+      font-size: 28px;
+      color: #00d4ff;
+    }
+
+    .date {
+      font-size: 14px;
+      opacity: 0.7;
+      margin-top: 5px;
+    }
+  </style>
 </head>
 <body>
-    <div class="card">
-        <!-- Floating hearts -->
-        <div class="hearts heart1">❤️</div>
-        <div class="hearts heart2">❤️</div>
-        <div class="hearts heart3">❤️</div>
-        <div class="hearts heart4">❤️</div>
-        
-        <h1>To Someone Special</h1>
-        
-        <div class="message">
-            Every moment with you feels like a beautiful dream I never want to wake up from.<br><br>
-            Your smile brightens my darkest days, and your love gives me strength.<br><br>
-            Today, tomorrow, and forever - my heart belongs to you.
-        </div>
-        
-        <div class="signature">
-            With all my love,<br>
-            [Your Name]
-        </div>
-    </div>
+  <div class="container">
+    <h1>📅 Date Tracker</h1>
+    <div id="list"></div>
+  </div>
+
+  <script>
+    const data = [
+      { label: "Started University", date: "2023-09-01" },
+      { label: "Gym Journey", date: "2024-01-15" },
+      { label: "Project Launch", date: "2025-06-01" }
+    ];
+
+    function getDaysPassed(dateStr) {
+      const givenDate = new Date(dateStr);
+      const today = new Date();
+      const diffTime = today - givenDate;
+      return Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    }
+
+    function render() {
+      const container = document.getElementById("list");
+      container.innerHTML = "";
+
+      data.forEach(item => {
+        const days = getDaysPassed(item.date);
+
+        const card = document.createElement("div");
+        card.className = "card";
+
+        card.innerHTML = `
+          <div class="label">${item.label}</div>
+          <div class="days">${days} days</div>
+          <div class="date">Since ${item.date}</div>
+        `;
+
+        container.appendChild(card);
+      });
+    }
+
+    render();
+  </script>
 </body>
 </html>
