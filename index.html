@@ -9,12 +9,19 @@
       font-family: Arial, sans-serif;
       background: linear-gradient(135deg, #1e1e2f, #2b2b45);
       color: #fff;
-      padding: 30px;
+      padding: 20px;
     }
 
     h1 {
       text-align: center;
-      margin-bottom: 30px;
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      margin-top: 40px;
+      margin-bottom: 10px;
+      font-size: 18px;
+      opacity: 0.8;
     }
 
     .container {
@@ -34,17 +41,17 @@
       transform: translateY(-5px);
     }
 
-    /* 🎯 Subtle category colors */
+    /* 🎯 Slightly stronger but still faded */
     .fixed {
-      background: rgba(255, 255, 255, 0.08); /* original */
+      background: rgba(255, 255, 255, 0.08);
     }
 
     .increasing {
-      background: rgba(120, 150, 130, 0.18); /* dull green-gray */
+      background: rgba(120, 150, 130, 0.28);
     }
 
     .decreasing {
-      background: rgba(160, 110, 110, 0.18); /* dull red-gray */
+      background: rgba(160, 110, 110, 0.28);
     }
 
     .label {
@@ -70,13 +77,14 @@
       margin-top: 5px;
     }
 
+    /* Responsive */
     @media (max-width: 1000px) {
       .container {
         grid-template-columns: repeat(2, 1fr);
       }
     }
 
-    @media (max-width: 500px) {
+    @media (max-width: 600px) {
       .container {
         grid-template-columns: repeat(1, 1fr);
       }
@@ -85,110 +93,157 @@
 </head>
 <body>
 
-  <h1>📅 Life Timeline</h1>
-  <div class="container" id="list"></div>
+<h1>📅 Life Timeline</h1>
 
-  <script>
-    const data = [
+<div id="app"></div>
+
+<script>
+const sections = [
+  {
+    title: "👤 Personal",
+    items: [
       { label: "Born Since", from: "1996-02-01" },
-      { label: "My Birthday", to: "2027-02-01" },
+      { label: "My Birthday", to: "0000-02-01" }
+    ]
+  },
+  {
+    title: "💼 Work & Study",
+    items: [
       { label: "Working Since", from: "2014-08-01" },
       { label: "Study Gap-1", from: "2014-08-01", to: "2022-05-26" },
       { label: "Study Gap-2", from: "2025-08-14" },
-      { label: "Lived in Malaysia", from: "2022-08-14", to: "2025-08-14" },
-      { label: "Studied at INTI", from: "2022-05-26", to: "2025-08-13" },
-      { label: "Stayed in London", from: "2025-08-14", to: "2025-11-16" },
+      { label: "Studied at INTI", from: "2022-05-26", to: "2025-08-13" }
+    ]
+  },
+  {
+    title: "❤️ Noor",
+    items: [
       { label: "Know Noor Since", from: "2023-09-27" },
       { label: "With Noor", from: "2023-09-27", to: "2025-08-13" },
       { label: "Without Noor", from: "2025-08-14" },
-      { label: "Blocked Noor", from: "2026-04-19" },
-      { label: "Noor's Birthday", to: "2026-07-19" },
-      { label: "Anniversary with Noor", to: "2026-09-27" },
-      { label: "Relationship Anniversary with Noor", to: "2027-02-14" },
-      { label: "OMPT-A Exam Deadline", to: "2026-04-30" },
-      { label: "VU Application Deadline", to: "2026-05-01" },
-      { label: "KTU Application Deadline", to: "2026-06-01" },
-      { label: "KTU Semester Starts", to: "2026-09-01" },
-    ];
+      { label: "Noor's Birthday", to: "0000-07-19" },
+      { label: "Anniversary", to: "0000-09-27" }
+    ]
+  },
+  {
+    title: "🎓 Applications & Future",
+    items: [
+      { label: "OMPT-A Deadline", to: "2026-04-30" },
+      { label: "VU Deadline", to: "2026-05-01" },
+      { label: "KTU Deadline", to: "2026-06-01" },
+      { label: "Semester Starts", to: "2026-09-01" }
+    ]
+  }
+];
 
-    function getDates(item) {
-      const today = new Date();
-      const from = item.from ? new Date(item.from) : today;
-      const to = item.to ? new Date(item.to) : today;
-      return { from, to };
+function parseDate(dateStr) {
+  const today = new Date();
+
+  if (!dateStr) return today;
+
+  // recurring date (0000-MM-DD)
+  if (dateStr.startsWith("0000")) {
+    const [, month, day] = dateStr.split("-");
+    let next = new Date(today.getFullYear(), month - 1, day);
+
+    if (next < today) {
+      next.setFullYear(today.getFullYear() + 1);
     }
 
-    function getDaysDiff(from, to) {
-      return Math.floor((to - from) / (1000 * 60 * 60 * 24));
-    }
+    return next;
+  }
 
-    function getYMDDifference(from, to) {
-      let start = new Date(from);
-      let end = new Date(to);
+  return new Date(dateStr);
+}
 
-      let years = end.getFullYear() - start.getFullYear();
-      let months = end.getMonth() - start.getMonth();
-      let days = end.getDate() - start.getDate();
+function getDates(item) {
+  const today = new Date();
+  const from = item.from ? parseDate(item.from) : today;
+  const to = item.to ? parseDate(item.to) : today;
+  return { from, to };
+}
 
-      if (days < 0) {
-        months--;
-        const prevMonth = new Date(end.getFullYear(), end.getMonth(), 0);
-        days += prevMonth.getDate();
+function getDaysDiff(from, to) {
+  return Math.floor((to - from) / (1000 * 60 * 60 * 24));
+}
+
+function getYMDDifference(from, to) {
+  let start = new Date(from);
+  let end = new Date(to);
+
+  let years = end.getFullYear() - start.getFullYear();
+  let months = end.getMonth() - start.getMonth();
+  let days = end.getDate() - start.getDate();
+
+  if (days < 0) {
+    months--;
+    const prevMonth = new Date(end.getFullYear(), end.getMonth(), 0);
+    days += prevMonth.getDate();
+  }
+
+  if (months < 0) {
+    years--;
+    months += 12;
+  }
+
+  return `${years}y ${months}m ${days}d`;
+}
+
+function getCategory(item) {
+  if (item.from && item.to) return "fixed";
+  if (item.from && !item.to) return "increasing";
+  if (!item.from && item.to) return "decreasing";
+  return "fixed";
+}
+
+function render() {
+  const app = document.getElementById("app");
+  app.innerHTML = "";
+  const today = new Date();
+
+  sections.forEach(section => {
+    const title = document.createElement("h2");
+    title.innerText = section.title;
+    app.appendChild(title);
+
+    const container = document.createElement("div");
+    container.className = "container";
+
+    section.items.forEach(item => {
+      const { from, to } = getDates(item);
+      const category = getCategory(item);
+
+      let days, ymd;
+
+      if (category === "decreasing") {
+        days = getDaysDiff(today, to);
+        ymd = getYMDDifference(today, to);
+      } else {
+        days = getDaysDiff(from, to);
+        ymd = getYMDDifference(from, to);
       }
 
-      if (months < 0) {
-        years--;
-        months += 12;
-      }
+      const card = document.createElement("div");
+      card.className = `card ${category}`;
 
-      return `${years}y ${months}m ${days}d`;
-    }
+      card.innerHTML = `
+        <div class="label">${item.label}</div>
+        <div class="days">${days} days</div>
+        <div class="ymd">${ymd}</div>
+        <div class="date">
+          ${item.from || "Today"} → ${item.to || "Today"}
+        </div>
+      `;
 
-    function getCategory(item) {
-      if (item.from && item.to) return "fixed";
-      if (item.from && !item.to) return "increasing";
-      if (!item.from && item.to) return "decreasing";
-      return "fixed";
-    }
+      container.appendChild(card);
+    });
 
-    function render() {
-      const container = document.getElementById("list");
-      container.innerHTML = "";
+    app.appendChild(container);
+  });
+}
 
-      const today = new Date();
-
-      data.forEach(item => {
-        const { from, to } = getDates(item);
-        const category = getCategory(item);
-
-        let days, ymd;
-
-        if (category === "decreasing") {
-          days = getDaysDiff(today, to);
-          ymd = getYMDDifference(today, to);
-        } else {
-          days = getDaysDiff(from, to);
-          ymd = getYMDDifference(from, to);
-        }
-
-        const card = document.createElement("div");
-        card.className = `card ${category}`;
-
-        card.innerHTML = `
-          <div class="label">${item.label}</div>
-          <div class="days">${days} days</div>
-          <div class="ymd">${ymd}</div>
-          <div class="date">
-            ${item.from || "Today"} → ${item.to || "Today"}
-          </div>
-        `;
-
-        container.appendChild(card);
-      });
-    }
-
-    render();
-  </script>
+render();
+</script>
 
 </body>
 </html>
