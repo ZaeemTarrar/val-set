@@ -1,3 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <title>Date Tracker</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #1e1e2f, #2b2b45);
+      color: #fff;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      margin-top: 40px;
+      margin-bottom: 10px;
+      font-size: 18px;
+      opacity: 0.8;
+    }
+
+    .container {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+
+    .card {
+      border-radius: 16px;
+      padding: 15px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+      transition: transform 0.2s ease;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .fixed {
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .increasing {
+      background: rgba(120, 150, 130, 0.28);
+    }
+
+    .decreasing {
+      background: rgba(160, 110, 110, 0.28);
+    }
+
+    .label {
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    .days {
+      font-size: 22px;
+      color: #00d4ff;
+      margin-top: 8px;
+    }
+
+    .ymd {
+      font-size: 14px;
+      color: #ffd166;
+      margin-top: 3px;
+    }
+
+    .date {
+      font-size: 12px;
+      opacity: 0.7;
+      margin-top: 5px;
+    }
+
+    @media (max-width: 1000px) {
+      .container {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<h1>📅 Life Timeline</h1>
+
+<div id="app"></div>
+
 <script>
 const sections = [
   {
@@ -93,7 +195,7 @@ function getYMDDifference(from, to) {
 }
 
 function getCategory(item) {
-  if (item.text) return "fixed"; // text cards use neutral style
+  if (item.text) return "fixed";
   if (item.from && item.to) return "fixed";
   if (item.from && !item.to) return "increasing";
   if (!item.from && item.to) return "decreasing";
@@ -102,6 +204,8 @@ function getCategory(item) {
 
 function render() {
   const app = document.getElementById("app");
+  if (!app) return; // safety
+
   app.innerHTML = "";
   const today = new Date();
 
@@ -118,7 +222,6 @@ function render() {
       const category = getCategory(item);
       card.className = `card ${category}`;
 
-      // ✅ TEXT MODE
       if (item.text) {
         card.innerHTML = `
           <div class="label">${item.label}</div>
@@ -164,5 +267,9 @@ function render() {
   });
 }
 
-render();
+/* ✅ FIX: wait for DOM */
+document.addEventListener("DOMContentLoaded", render);
 </script>
+
+</body>
+</html>
