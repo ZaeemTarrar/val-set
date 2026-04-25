@@ -2,7 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <!-- ✅ THIS WAS MISSING (critical for mobile) -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>Date Tracker</title>
+
   <style>
     body {
       margin: 0;
@@ -35,13 +39,15 @@
       padding: 15px;
       box-shadow: 0 8px 20px rgba(0,0,0,0.3);
       transition: transform 0.2s ease;
+      width: 100%; /* ✅ ensures full width */
+      box-sizing: border-box;
     }
 
     .card:hover {
       transform: translateY(-5px);
     }
 
-    /* 🎯 Slightly stronger but still faded */
+    /* Colors */
     .fixed {
       background: rgba(255, 255, 255, 0.08);
     }
@@ -77,18 +83,24 @@
       margin-top: 5px;
     }
 
-    /* Responsive */
+    /* Tablet */
     @media (max-width: 1000px) {
       .container {
         grid-template-columns: repeat(2, 1fr);
       }
     }
 
+    /* ✅ MOBILE FIX (FORCE 1 PER ROW) */
     @media (max-width: 768px) {
       .container {
         grid-template-columns: 1fr !important;
       }
+
+      body {
+        padding: 10px;
+      }
     }
+
   </style>
 </head>
 <body>
@@ -143,7 +155,6 @@ function parseDate(dateStr) {
 
   if (!dateStr) return today;
 
-  // recurring date (0000-MM-DD)
   if (dateStr.startsWith("0000")) {
     const [, month, day] = dateStr.split("-");
     let next = new Date(today.getFullYear(), month - 1, day);
